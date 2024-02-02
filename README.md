@@ -9,5 +9,6 @@ For each method, the project calculates the size, McCabe complexity, readability
 output into CSV files, one for each project, in the following format:
 |  JSON # 	|   Size (SLOC) 	|   McCabe  	|   Readability 	|   #Revisions  	|
 |---	|---	|---	|---	|---	|
+
 After that, a python script is used to calculate the Pearson, Spearman, and Kendall's Tau correlation coefficients and
 P-values.
