@@ -1,8 +1,5 @@
 package me.khalidzahra.mevaluator.analysis.analyzer;
 
-import com.github.javaparser.ParseProblemException;
-import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.body.MethodDeclaration;
 import me.khalidzahra.mevaluator.analysis.MethodMetrics;
 import me.khalidzahra.mevaluator.parse.codeshovel.CSMethod;
 
