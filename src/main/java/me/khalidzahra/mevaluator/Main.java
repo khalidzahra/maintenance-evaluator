@@ -1,5 +1,8 @@
 package me.khalidzahra.mevaluator;
 
+import com.github.javaparser.ParserConfiguration;
+import com.github.javaparser.StaticJavaParser;
+import me.khalidzahra.mevaluator.analysis.analyzer.SizeAnalyzer;
 import me.khalidzahra.mevaluator.parse.JsonParser;
 
 /**
@@ -7,7 +10,12 @@ import me.khalidzahra.mevaluator.parse.JsonParser;
  */
 public class Main {
     public static void main(String[] args) {
-        JsonParser jsonParser = new JsonParser("src/main/resources/checkstyle");
-        jsonParser.parse();
+        ParserConfiguration config = new ParserConfiguration().setAttributeComments(false).setLanguageLevel(ParserConfiguration.LanguageLevel.RAW);
+        StaticJavaParser.setConfiguration(config);
+
+        JsonParser jsonParser = new JsonParser();
+        jsonParser.registerAnalyzers(new SizeAnalyzer());
+        jsonParser.parse("src/main/resources/checkstyle");
+//        jsonParser.parse("src/main/resources/hadoop");
     }
 }

@@ -1,5 +1,10 @@
 package me.khalidzahra.mevaluator.parse.codeshovel;
 
+import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import me.khalidzahra.mevaluator.analysis.MethodMetrics;
+
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +25,28 @@ public class CSMethod {
     private List<String> changeHistory;
     private Map<String, String> changeHistoryShort;
     private Map<String, CSRevision> changeHistoryDetails;
+    private transient MethodDeclaration methodDeclaration;
+
+    public void load(MethodMetrics methodMetrics) {
+        String firstCommitHash = this.changeHistory.get(this.changeHistory.size() - 1);
+        if (!this.changeHistoryShort.get(firstCommitHash).equalsIgnoreCase("YIntroduced")) {
+            methodMetrics.setHistoryIssues(true); // No return to have a full idea of both history issues and parse problems
+        }
+        String initialMethodBody = this.changeHistoryDetails.get(firstCommitHash).getActualSource();
+        try {
+            this.methodDeclaration = StaticJavaParser.parseMethodDeclaration(initialMethodBody);
+        } catch (ParseProblemException e) {
+            methodMetrics.setParsable(false);
+        }
+    }
+
+    public MethodDeclaration getMethodDeclaration() {
+        return methodDeclaration;
+    }
+
+    public void setMethodDeclaration(MethodDeclaration methodDeclaration) {
+        this.methodDeclaration = methodDeclaration;
+    }
 
     public String getOrigin() {
         return origin;
