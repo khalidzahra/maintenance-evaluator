@@ -21,6 +21,12 @@
       <artifactId>javaparser-symbol-solver-core</artifactId>
       <version>3.25.8</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.10.1</version>
+    </dependency>
     <!--  Readability tool  -->
     <dependency>
       <groupId>raykernel.apps</groupId>
