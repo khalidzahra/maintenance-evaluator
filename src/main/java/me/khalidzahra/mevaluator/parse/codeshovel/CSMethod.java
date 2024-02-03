@@ -25,6 +25,7 @@ public class CSMethod {
     private List<String> changeHistory;
     private Map<String, String> changeHistoryShort;
     private Map<String, CSRevision> changeHistoryDetails;
+    private transient String methodSource;
     private transient MethodDeclaration methodDeclaration;
 
     public void load(MethodMetrics methodMetrics) {
@@ -35,17 +36,18 @@ public class CSMethod {
         String initialMethodBody = this.changeHistoryDetails.get(firstCommitHash).getActualSource();
         try {
             this.methodDeclaration = StaticJavaParser.parseMethodDeclaration(initialMethodBody);
+            this.methodSource = initialMethodBody;
         } catch (ParseProblemException e) {
             methodMetrics.setParsable(false);
         }
     }
 
-    public MethodDeclaration getMethodDeclaration() {
-        return methodDeclaration;
+    public String getMethodSource() {
+        return methodSource;
     }
 
-    public void setMethodDeclaration(MethodDeclaration methodDeclaration) {
-        this.methodDeclaration = methodDeclaration;
+    public MethodDeclaration getMethodDeclaration() {
+        return methodDeclaration;
     }
 
     public String getOrigin() {
