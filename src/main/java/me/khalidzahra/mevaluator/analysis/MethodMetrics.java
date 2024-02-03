@@ -6,7 +6,7 @@ public class MethodMetrics {
     private int size;
     private int complexity;
     private double readability;
-    private String numberOfRevisions;
+    private int numberOfRevisions;
     private boolean parsable;
     private boolean historyIssues;
 
@@ -60,11 +60,11 @@ public class MethodMetrics {
         this.readability = readability;
     }
 
-    public String getNumberOfRevisions() {
+    public int getNumberOfRevisions() {
         return numberOfRevisions;
     }
 
-    public void setNumberOfRevisions(String numberOfRevisions) {
+    public void setNumberOfRevisions(int numberOfRevisions) {
         this.numberOfRevisions = numberOfRevisions;
     }
 }

@@ -4,6 +4,7 @@ import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.StaticJavaParser;
 import me.khalidzahra.mevaluator.analysis.analyzer.McCabeAnalyzer;
 import me.khalidzahra.mevaluator.analysis.analyzer.ReadabilityAnalyzer;
+import me.khalidzahra.mevaluator.analysis.analyzer.RevisionAnalyzer;
 import me.khalidzahra.mevaluator.analysis.analyzer.SizeAnalyzer;
 import me.khalidzahra.mevaluator.parse.JsonParser;
 
@@ -19,7 +20,8 @@ public class Main {
         jsonParser.registerAnalyzers(
                 new SizeAnalyzer(),
                 new McCabeAnalyzer(),
-                new ReadabilityAnalyzer());
+                new ReadabilityAnalyzer(),
+                new RevisionAnalyzer());
         jsonParser.parse("src/main/resources/checkstyle");
 //        jsonParser.parse("src/main/resources/hadoop");
     }
