@@ -16,6 +16,16 @@ public class MethodMetrics {
         this.historyIssues = false;
     }
 
+    public String[] asArray() {
+        return new String[]{
+                id,
+                String.valueOf(size),
+                String.valueOf(complexity),
+                String.valueOf(readability),
+                String.valueOf(numberOfRevisions)
+        };
+    }
+
     public boolean hasHistoryIssues() {
         return historyIssues;
     }

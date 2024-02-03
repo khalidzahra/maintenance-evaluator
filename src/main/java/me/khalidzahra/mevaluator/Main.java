@@ -22,7 +22,7 @@ public class Main {
                 new McCabeAnalyzer(),
                 new ReadabilityAnalyzer(),
                 new RevisionAnalyzer());
-        jsonParser.parse("src/main/resources/checkstyle");
-//        jsonParser.parse("src/main/resources/hadoop");
+        jsonParser.parse("src/main/resources/checkstyle", "checkstyle");
+        jsonParser.parse("src/main/resources/hadoop", "hadoop");
     }
 }

@@ -29,9 +29,14 @@ public class CSMethod {
     private transient MethodDeclaration methodDeclaration;
 
     public void load(MethodMetrics methodMetrics) {
+        if (this.changeHistory.isEmpty()) {
+            methodMetrics.setHistoryIssues(true);
+            return;
+        }
         String firstCommitHash = this.changeHistory.get(this.changeHistory.size() - 1);
         if (!this.changeHistoryShort.get(firstCommitHash).equalsIgnoreCase("YIntroduced")) {
-            methodMetrics.setHistoryIssues(true); // No return to have a full idea of both history issues and parse problems
+            methodMetrics.setHistoryIssues(true);
+            return;
         }
         String initialMethodBody = this.changeHistoryDetails.get(firstCommitHash).getActualSource();
         try {
