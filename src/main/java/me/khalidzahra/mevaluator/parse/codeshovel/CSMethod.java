@@ -8,6 +8,9 @@ import me.khalidzahra.mevaluator.analysis.MethodMetrics;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The CSMethod class is a data structure for Gson to load the JSON CodeShovel outputs.
+ */
 public class CSMethod {
 
     private String origin;
@@ -25,9 +28,18 @@ public class CSMethod {
     private List<String> changeHistory;
     private Map<String, String> changeHistoryShort;
     private Map<String, CSRevision> changeHistoryDetails;
-    private transient String methodSource;
+    /*
+        Both source and declaration are transient because they are computed after Gson loads the data.
+        They are set to transient so that Gson ignores them.
+    */
+    private transient String initialMethodSource;
     private transient MethodDeclaration methodDeclaration;
 
+    /**
+     * The load method computes the initial source and declaration. It also checks if the method has history issues
+     * or any parsing issues and updates the associated MethodMetrics object.
+     * @param methodMetrics MethodMetrics object which holds all metrics associated with the method.
+     */
     public void load(MethodMetrics methodMetrics) {
         if (this.changeHistory.isEmpty()) {
             methodMetrics.setHistoryIssues(true);
@@ -41,14 +53,14 @@ public class CSMethod {
         String initialMethodBody = this.changeHistoryDetails.get(firstCommitHash).getActualSource();
         try {
             this.methodDeclaration = StaticJavaParser.parseMethodDeclaration(initialMethodBody);
-            this.methodSource = initialMethodBody;
+            this.initialMethodSource = initialMethodBody;
         } catch (ParseProblemException e) {
             methodMetrics.setParsable(false);
         }
     }
 
-    public String getMethodSource() {
-        return methodSource;
+    public String getInitialMethodSource() {
+        return initialMethodSource;
     }
 
     public MethodDeclaration getMethodDeclaration() {

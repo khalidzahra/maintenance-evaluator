@@ -1,5 +1,8 @@
 package me.khalidzahra.mevaluator.parse.codeshovel;
 
+/**
+ * CSRevision is a data structure utilized in CSMethod to hold information loaded by Gson about method revisions (commits).
+ */
 public class CSRevision {
 
     private String type;

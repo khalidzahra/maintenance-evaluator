@@ -9,7 +9,7 @@ public class ReadabilityUtil {
     private static final PortableEvaluator EVALUATOR = new PortableEvaluator();
 
     public static double evaluate(CSMethod csMethod) {
-        Function function = new Function(csMethod.getMethodSource());
+        Function function = new Function(csMethod.getInitialMethodSource());
         return EVALUATOR.getReadability(function);
     }
 

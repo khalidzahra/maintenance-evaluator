@@ -14,7 +14,7 @@ public class SizeAnalyzer implements Analyzer {
 
     private int getRealSize(CSMethod csMethod) {
         int size = 0;
-        Scanner scanner = new Scanner(csMethod.getMethodSource());
+        Scanner scanner = new Scanner(csMethod.getInitialMethodSource());
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().strip(); // Remove leading and trailing spaces
             if (line.isEmpty() || line.startsWith("//")) continue;
