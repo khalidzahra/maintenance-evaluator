@@ -21,22 +21,38 @@ public class RevisionAnalyzer implements Analyzer {
                         return isValidMultiChange(change);
                     }
                     return isValidChange(change);
-                }).count();
+                })
+                .count();
         methodMetrics.setNumberOfRevisions(revisions);
     }
 
+    /**
+     * Checks if the change is not Yrename or Ymovefromfile
+     *
+     * @param change The revision extracted from CodeShovel
+     * @return True if the change is not a rename or a file move.
+     */
     public boolean isValidChange(String change) {
         return !change.equalsIgnoreCase(RENAME_ID) && !change.equalsIgnoreCase(MOVE_ID);
     }
 
+    /**
+     * Handles the case where a revision is of the type Ymultichange. It makes sure that the multichange consists
+     * of changes other than Yrename and Ymovefromfile exclusively.
+     *
+     * @param multiChange The revision where multiple changes occurred.
+     * @return True if the multichange is valid.
+     */
     private boolean isValidMultiChange(String multiChange) {
         String sub = multiChange.substring(MULTI_ID.length());
         sub = sub.substring(1, sub.length() - 1);
         String[] changes = sub.split(",");
+
         int unwantedChanges = 0;
         for (String change : changes) {
             unwantedChanges += change.equalsIgnoreCase(MOVE_ID) || change.equalsIgnoreCase(RENAME_ID) ? 1 : 0;
         }
+
         // Only true when changes are not exclusively rename and move
         return changes.length - unwantedChanges > 1;
     }
