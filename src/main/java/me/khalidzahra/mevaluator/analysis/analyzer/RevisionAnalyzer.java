@@ -3,8 +3,6 @@ package me.khalidzahra.mevaluator.analysis.analyzer;
 import me.khalidzahra.mevaluator.analysis.MethodMetrics;
 import me.khalidzahra.mevaluator.parse.codeshovel.CSMethod;
 
-import java.util.Arrays;
-
 public class RevisionAnalyzer implements Analyzer {
 
     private final String RENAME_ID = "Yrename";
