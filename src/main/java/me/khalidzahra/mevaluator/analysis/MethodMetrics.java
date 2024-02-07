@@ -1,5 +1,8 @@
 package me.khalidzahra.mevaluator.analysis;
 
+/**
+ * MethodMetrics is a data structure that simply holds all metrics associated with a method.
+ */
 public class MethodMetrics {
 
     private final String id;
@@ -16,6 +19,10 @@ public class MethodMetrics {
         this.historyIssues = false;
     }
 
+    /**
+     * Returns all metrics as an array for printing purposes.
+     * @return String array containing all metrics.
+     */
     public String[] asArray() {
         return new String[]{
                 id,
