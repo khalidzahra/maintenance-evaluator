@@ -34,6 +34,10 @@ build/
 ### Mac OS ###
 .DS_Store
 
+# Python
+Pipfile
+Pipfile.*
+
 # Resources
 src/main/resources/hadoop/
 src/main/resources/checkstyle/
