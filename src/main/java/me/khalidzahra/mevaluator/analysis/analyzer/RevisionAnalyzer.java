@@ -5,14 +5,15 @@ import me.khalidzahra.mevaluator.parse.codeshovel.CSMethod;
 
 public class RevisionAnalyzer implements Analyzer {
 
-    private final String RENAME_ID = "Yrename";
+    private final String RENAME_ID = "Yfilerename";
     private final String MOVE_ID = "Ymovefromfile";
     private final String MULTI_ID = "Ymultichange";
 
     @Override
     public void analyze(CSMethod csMethod, MethodMetrics methodMetrics) {
-        // Exclude Yrename or Ymovefromfile if no other changes exist
+        // Exclude Yfilerename or Ymovefromfile if no other changes exist
         int revisions = 0;
+        // Filter out all valid methods then count them
         revisions += (int) csMethod.getChangeHistoryShort().values().stream()
                 .filter(change -> {
                     if (change.startsWith(MULTI_ID)) {
@@ -25,7 +26,7 @@ public class RevisionAnalyzer implements Analyzer {
     }
 
     /**
-     * Checks if the change is not Yrename or Ymovefromfile
+     * Checks if the change is not Yfilerename or Ymovefromfile
      *
      * @param change The revision extracted from CodeShovel
      * @return True if the change is not a rename or a file move.
@@ -36,7 +37,7 @@ public class RevisionAnalyzer implements Analyzer {
 
     /**
      * Handles the case where a revision is of the type Ymultichange. It makes sure that the multichange consists
-     * of changes other than Yrename and Ymovefromfile exclusively.
+     * of changes other than Yfilerename and Ymovefromfile exclusively.
      *
      * @param multiChange The revision where multiple changes occurred.
      * @return True if the multichange is valid.
