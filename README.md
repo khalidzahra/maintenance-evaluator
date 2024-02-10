@@ -40,6 +40,9 @@ Example:
 java -jar MaintenanceEvaluator-1.0-SNAPSHOT-jar-with-dependencies.jar /home/khalidzahra/Desktop/data/checkstyle/ /home/khalidzahra/Desktop/data/hadoop/ -o /home/khalidzahra/Desktop/output-files
 ```
 The -o flag is optional. If no output is specified, the files will be created in the same directory as the JAR.
+
+Sample Output:
+![Metrics calculator sample output](imgs/metrics-calculator-sample-output.png)
 ## Run Instructions - Correlation Evaluator
 1. Install the required dependencies by running:
 ```bash
