@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 public class JsonParser {
 
@@ -42,45 +41,56 @@ public class JsonParser {
         Arrays.stream(analyzers).forEach(this::registerAnalyzer);
     }
 
+    /**
+     * Parses all CodeShovel JSON files in the given directory,
+     * loads the method into a CSMethod object and its associated MethodMetrics object
+     * then runs all registered analyzers on the method
+     * finally outputs metrics held in MethodMetrics into CSV file in the output directory
+     * and prints useful statistics to terminal.
+     * @param folderPath String object containing the path to the folder containing the CodeShovel JSON files
+     * @param outputDir String object containing the path to the output folder
+     */
     public void parse(String folderPath, String outputDir) {
         int parseProblem = 0, historyProblem = 0;
+        // Make sure the directory exists
         outputDir = createOutputDirIfNotExists(outputDir);
-        File dir = new File(folderPath);
+        File inputDirectory = new File(folderPath);
         try {
             // Create CSV file and write the column headers
-            String[] splitPath = folderPath.split(Pattern.quote(File.separator)); // Split at pathSeparator for Windows/Linux compatibility.
             String fileName = Paths.get(folderPath).toFile().getName();
             CSVWriter writer = new CSVWriter(new FileWriter(new File(outputDir, fileName + ".csv")));
             String[] header = new String[]{"Json_ID", "Size", "McCabe", "Readability", "#Revisions"};
             writer.writeNext(header);
 
-            for (String jfile : Objects.requireNonNull(dir.list())) {
+            // Loop through JSON files in the directory
+            for (String jsonFile : Objects.requireNonNull(inputDirectory.list())) {
                 try {
                     // Load method from JSON
-                    CSMethod method = readFile(folderPath, jfile);
-                    MethodMetrics metrics = new MethodMetrics(jfile);
+                    CSMethod method = readFile(folderPath, jsonFile);
+                    MethodMetrics metrics = new MethodMetrics(jsonFile);
                     method.load(metrics);
 
                     // Update problem counter if method is problematic
                     parseProblem += !metrics.isParsable() ? 1 : 0;
                     historyProblem += metrics.hasHistoryIssues() ? 1 : 0;
 
-                    // Analyze the method to calculate metrics and write them to CSV file
-                    analyzeMethod(method, metrics);
-                    writeMethodToCSV(writer, metrics);
+
+                    analyzeMethod(method, metrics); // Analyze the method to calculate metrics
+                    writeMethodToCSV(writer, metrics); // Write metrics to CSV file
                 } catch (FileNotFoundException e) {
-                    System.out.println("Could not load method in " + jfile);
+                    System.out.println("Could not load method in " + jsonFile);
                 }
             }
-            writer.close();
+
+            writer.close(); // Close the writer after writing all metrics into the CSV file
             System.out.println("Successfully created " + outputDir + fileName + ".csv");
         } catch (IOException e) {
-            e.printStackTrace();
             System.out.println("Error writing CSV file.");
         } catch (NullPointerException e) {
             System.out.println("Could not find specified directory for JSON files.");
-            return;
+            return; // Return so that no statistics are printed
         }
+
         // Print the statistics for the folder JsonParser just analyzed
         printStatistics(folderPath, parseProblem, historyProblem);
     }
@@ -109,12 +119,12 @@ public class JsonParser {
     /**
      * Loads method from JSON using Gson.
      * @param folderPath Path to folder containing JSON file
-     * @param jfile Name of the JSON file
+     * @param jsonFile Name of the JSON file
      * @return Returns CSMethod object
      * @throws FileNotFoundException
      */
-    private CSMethod readFile(String folderPath, String jfile) throws FileNotFoundException {
-        Reader reader = new FileReader(folderPath + File.separator + jfile);
+    private CSMethod readFile(String folderPath, String jsonFile) throws FileNotFoundException {
+        Reader reader = new FileReader(folderPath + File.separator + jsonFile);
         return gson.fromJson(reader, CSMethod.class);
     }
 
