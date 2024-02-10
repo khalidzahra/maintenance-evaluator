@@ -13,7 +13,6 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
   <dependencies>
     <!-- https://mvnrepository.com/artifact/com.github.javaparser/javaparser-symbol-solver-core -->
     <dependency>
@@ -38,8 +37,6 @@
       <groupId>raykernel.apps</groupId>
       <artifactId>readability</artifactId>
       <version>1.0</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/src/main/resources/read-tse-1.0.0.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -50,6 +47,19 @@
   </dependencies>
   <build>
     <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>me.khalidzahra.mevaluator.Main</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
